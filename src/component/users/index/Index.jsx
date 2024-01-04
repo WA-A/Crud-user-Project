@@ -21,7 +21,7 @@ const getUsers = async ()=>{
 }
    
    useEffect ( ()=>{
-     getUsers1();
+     getUsers();
    },[])
 
   return (
