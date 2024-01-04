@@ -6,11 +6,9 @@ export default function Index() {
    const [users,setUsers]=useState([]);  // var to store data of user (inital value is empty array)
    
    const getUsers = async ()=>{
-    let response = await fetch  ("https://crud-users-gold.vercel.app/users/");
+    let response = await axios  ("https://crud-users-gold.vercel.app/users/");
     // in consle show array content massege and users so need print users in page not console
-     const data = await response.json();
-     console(data.users);
-    
+    setUsers(response.data.users);
 }
    
    useEffect ( ()=>{
