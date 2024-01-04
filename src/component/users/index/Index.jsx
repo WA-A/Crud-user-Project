@@ -16,7 +16,7 @@ const getUsers = async ()=>{
     const response = await axios  ("https://crud-users-gold.vercel.app/users/");
     // in consle show array content massege and users so need print users in page not console
     //console.log(data.users); // but use {data} no response
-    setUsers(response.data.users)
+    setUsers(response.data.users);
      
 }
    

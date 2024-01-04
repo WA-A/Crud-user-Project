@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Create() {
+    let [user,setUser] = useState ({
+        name:'',
+        email:'',
+        password:'',
+    });
+
+    let [age,setAge]=useState(0);
+    const changeAge = (e)=>{
+        e.preventDefault();
+        setAge(e.target.value);
+    }
   return (
     <div className="container-fluid">
     <div className="row flex-nowrap">
@@ -85,7 +96,11 @@ export default function Create() {
             </div>
         </div>
         <div className="col py-3">
-           Create Page
+           <form>
+            <label htmlFor='age'>user age</label>
+            <input type='text' id='age' value={age} onChange={()=>changeAge(event)}/>
+          <button>click</button>
+           </form>
         </div>
 
     </div>
