@@ -7,8 +7,9 @@ export default function App() {
   return (
    <Routes>
     <Route path='/' />
+    <Route path='/users/index'  element={<Index />} />
     <Route path='/users/create' element= {<Create />} />
-    <Route path='/users/index' element={<Index />} />
+    
 
     
    </Routes>

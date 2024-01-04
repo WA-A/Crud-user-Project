@@ -1,6 +1,22 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
 export default function Index() {
+
+   const [users,setUsers]=useState([]);  // var to store data of user (inital value is empty array)
+   
+   const getUsers = async ()=>{
+    let response = await fetch  ("https://crud-users-gold.vercel.app/users/");
+    // in consle show array content massege and users so need print users in page not console
+     const data = await response.json();
+     console(data.users);
+    
+}
+   
+   useEffect ( ()=>{
+     getUsers();
+   },[])
+
   return (
     <div className="container-fluid">
             <div className="row flex-nowrap">
@@ -85,7 +101,34 @@ export default function Index() {
                     </div>
                 </div>
                 <div className="col py-3">
-                    Index Page
+                <table className="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">name</th>
+      <th scope="col">email</th>
+      <th scope="col">password</th>
+    </tr>
+  </thead>
+  <tbody>
+       {users.length>0? users.map ( (user,index)=>{  // user is obj and in td put same from api name email ..etc
+        return( 
+            // key must in first parent so use React.Fragment 
+            <React.Fragment key={user._id}> 
+            <tr>    
+                <td>{index}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.password}</td>
+            </tr>
+            </React.Fragment>
+            )}
+        ):<h2>no user data</h2>}
+      
+  </tbody>
+  
+</table>
+
                 </div>
     
             </div>
