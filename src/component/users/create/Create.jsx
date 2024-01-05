@@ -3,11 +3,17 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'; // Navigate from it
 import { toast } from 'react-toastify';
 import Input from '../../../shared/input';
- Input
+import { validationuserData } from './../../../validation/ValidationuserData';
 
 
 export default function Create() {
 const navigate = useNavigate();
+let [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    password: ''
+
+})
     let [user,setUser] = useState ({
         name:'',
         email:'',
@@ -24,13 +30,17 @@ const navigate = useNavigate();
 
     const sendData = async (e)=> {
         e.preventDefault();
-
+        if(Object.keys(validationuserData(user)).length>0){
+            setErrors(validationuserData(user))
+        }
+        else{
       const {data} = await axios.post("https://crud-users-gold.vercel.app/users/",user);  // any reguset is const / {} means is variable / post get 2 parameters
       console.log(data);
       if(data.message== 'success'){
         toast.success("user added successfly");
         navigate('/users/index') // Send the user to the creae page / put end point (path) for page
       }
+    }
     }
   return (
     <div className="container-fluid">
@@ -118,9 +128,9 @@ const navigate = useNavigate();
         
         <div className="col py-3">     {/*store data from form to api not localstorge */}
        <form onSubmit={sendData}>       {/* when click sumbit call function sendData */}
-       <input id={'username'}  title={'user name'} type={'text'} name={'name'} handelData={handelData} /> 
-       <input id={'email'}   title={'email'} type={'email'}  name={'email'} handelData={handelData}/>
-       <input  id={'password'} title={'password'}  customClasses="bg-danger" 
+       <input errors={errors} id={'username'}  title={'user name'} type={'text'} name={'name'} handelData={handelData} /> 
+       <input errors={errors} id={'email'}   title={'email'} type={'email'}  name={'email'} handelData={handelData}/>
+       <input errors={errors}  id={'password'} title={'password'}  customClasses="bg-danger" 
        type={'password'}  name={'password'} handelData={handelData}/>
     <div className="mb-3">
     <button type="submit" className="form-control" value='Add User'>Submit</button>
