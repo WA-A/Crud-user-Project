@@ -1,8 +1,11 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'; // Navigate from it
 import { toast } from 'react-toastify';
+ 
 
 export default function Create() {
+const navigate = useNavigate();
     let [user,setUser] = useState ({
         name:'',
         email:'',
@@ -24,6 +27,7 @@ export default function Create() {
       console.log(data);
       if(data.message== 'success'){
         toast.success("user added successfly");
+        navigate('/users/index') // Send the user to the creae page / put end point (path) for page
       }
     }
   return (
