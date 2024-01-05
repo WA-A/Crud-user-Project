@@ -21,6 +21,7 @@ let [errors, setErrors] = useState({
     });
 
     
+    
     const handelData = (e)=>{
        const {name,value} = e.target;
        // target content a value for input ,esay from get id ,know the value from input

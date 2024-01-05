@@ -23,10 +23,22 @@ const getUsers = async ()=>{
     setUsers(response.data.users);
      
 }
-   
-   useEffect ( ()=>{
+const deleteUser = async(id)=>{
+    setLoader(true);
+    const {data} = await axios.delete(`https://crud-users-gold.vercel.app/users/${id}`)
+  if(data.message=='success'){
+    toast.success("User delete successfully");
+    //setUsers(data.users);
+  }
+} 
+   useEffect ( ()=>{  // call the first time I refresh a page
      getUsers();
    },[])
+
+
+   useEffect ( ()=>{  // all the first as there is a change in users  refresh it
+    getUsers();
+  },[users])   
 
   return (
     <div className="container-fluid">
@@ -119,6 +131,7 @@ const getUsers = async ()=>{
       <th scope="col">name</th>
       <th scope="col">email</th>
       <th scope="col">password</th>
+      <th scope="col">Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -131,6 +144,7 @@ const getUsers = async ()=>{
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.password}</td>
+                <td onClick={()=>deleteUser(user._id)}>delete</td>
             </tr>
             </React.Fragment>
             )}
