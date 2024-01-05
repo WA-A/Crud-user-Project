@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 
 export default function Create() {
@@ -13,6 +14,12 @@ export default function Create() {
        // target content a value for input ,esay from get id ,know the value from input
        setUser({...user,[name]:value})
         console.log (user);     
+    }
+
+    const sendData = async (e)  => {
+        e.preventDefault();
+      const {data} = await axios.post("https://crud-users-gold.vercel.app/users/",user);  // any reguset is const / {} means is variable / post get 2 parameters
+      console.log(data);
     }
   return (
     <div className="container-fluid">
@@ -99,7 +106,7 @@ export default function Create() {
         </div>
         
         <div className="col py-3">     {/*store data from form to api not localstorge */}
-       <form>
+       <form onSubmit={sendData}>       {/* when click sumbit call function sendData */}
   <div className="mb-3">
      <label htmlFor="username" className="form-label">user name</label>
      <input type="text" className="form-control" id="username" onChange={handelData} />  
