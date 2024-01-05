@@ -2,7 +2,9 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'; // Navigate from it
 import { toast } from 'react-toastify';
- 
+import Input from '../../../shared/input';
+ Input
+
 
 export default function Create() {
 const navigate = useNavigate();
@@ -116,19 +118,10 @@ const navigate = useNavigate();
         
         <div className="col py-3">     {/*store data from form to api not localstorge */}
        <form onSubmit={sendData}>       {/* when click sumbit call function sendData */}
-  <div className="mb-3">
-     <label htmlFor="username" className="form-label">user name</label>
-     <input type="text" className="form-control" id="username" onChange={handelData} />  
-    
-  </div>
-  <div className="mb-3">
-     <label htmlFor="email" className="form-label">user email</label>
-     <input type="email" className="form-control" id="email" onChange={handelData}/>
-  </div>
-  <div className="mb-3 form-check">
-     <label  htmlFor="password" className="form-label">user password</label>
-     <input type="password" className="form-control" id="password" onChange={handelData}/>
-  </div>
+       <input id={'username'}  title={'user name'} type={'text'} name={'name'} handelData={handelData} /> 
+       <input id={'email'}   title={'email'} type={'email'}  name={'email'} handelData={handelData}/>
+       <input  id={'password'} title={'password'}  customClasses="bg-danger" 
+       type={'password'}  name={'password'} handelData={handelData}/>
     <div className="mb-3">
     <button type="submit" className="form-control" value='Add User'>Submit</button>
   </div>
