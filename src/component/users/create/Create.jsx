@@ -7,10 +7,12 @@ export default function Create() {
         password:'',
     });
 
-    let [age,setAge]=useState(0);
-    const changeAge = (e)=>{
-        e.preventDefault();
-        setAge(e.target.value);
+    
+    const handelData = (e)=>{
+       const {name,value} = e.target;
+       // target content a value for input ,esay from get id ,know the value from input
+       setUser({...user,[name]:value})
+        console.log (user);     
     }
   return (
     <div className="container-fluid">
@@ -95,12 +97,28 @@ export default function Create() {
                 </div>
             </div>
         </div>
-        <div className="col py-3">
-           <form>
-            <label htmlFor='age'>user age</label>
-            <input type='text' id='age' value={age} onChange={()=>changeAge(event)}/>
-          <button>click</button>
-           </form>
+        
+        <div className="col py-3">     {/*store data from form to api not localstorge */}
+       <form>
+  <div className="mb-3">
+     <label htmlFor="username" className="form-label">user name</label>
+     <input type="text" className="form-control" id="username" onChange={handelData} />  
+    
+  </div>
+  <div className="mb-3">
+     <label htmlFor="email" className="form-label">user email</label>
+     <input type="email" className="form-control" id="email" onChange={handelData}/>
+  </div>
+  <div className="mb-3 form-check">
+     <label  htmlFor="password" className="form-label">user password</label>
+     <input type="password" className="form-control" id="password" onChange={handelData}/>
+  </div>
+    <div className="mb-3">
+    <button type="submit" className="form-control" value='Add User'>Submit</button>
+  </div>
+  
+</form>
+
         </div>
 
     </div>

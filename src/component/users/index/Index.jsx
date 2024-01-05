@@ -3,6 +3,10 @@ import React, { useEffect, useState } from 'react'
 
 export default function Index() {
 
+    //useState accepts an initial state and returns two values:
+    //The current state.
+    //A function that updates the state.
+    
    const [users,setUsers]=useState([]);  // var to store data of user (inital value is empty array)
    
    /*const getUsers1 = async ()=>{ // not used
