@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { toast } from 'react-toastify';
 
 export default function Create() {
     let [user,setUser] = useState ({
@@ -13,13 +14,17 @@ export default function Create() {
        const {name,value} = e.target;
        // target content a value for input ,esay from get id ,know the value from input
        setUser({...user,[name]:value})
-        console.log (user);     
+       // console.log (user);     
     }
 
-    const sendData = async (e)  => {
+    const sendData = async (e)=> {
         e.preventDefault();
+
       const {data} = await axios.post("https://crud-users-gold.vercel.app/users/",user);  // any reguset is const / {} means is variable / post get 2 parameters
       console.log(data);
+      if(data.message== 'success'){
+        toast.success("user added successfly");
+      }
     }
   return (
     <div className="container-fluid">
