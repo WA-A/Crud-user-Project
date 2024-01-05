@@ -9,7 +9,7 @@ export default function App() {
     <Route path='/' />
     <Route path='/users/index'  element={<Index />} />
     <Route path='/users/create' element= {<Create />} />
-    
+    <Route path='/users/:id'  element={<Details />} />
 
     
    </Routes>

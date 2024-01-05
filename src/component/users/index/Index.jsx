@@ -145,6 +145,7 @@ const deleteUser = async(id)=>{
                 <td>{user.email}</td>
                 <td>{user.password}</td>
                 <td onClick={()=>deleteUser(user._id)}>delete</td>
+                <td><Link to={`/user/$user._id}`}>details</Link></td>
             </tr>
             </React.Fragment>
             )}
