@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Index from './component/users/index/Index'
 import Create from './component/users/create/Create'
+import Details from './details/Details'
 
 export default function App() {
   return (

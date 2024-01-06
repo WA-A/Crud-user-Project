@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 export default function Index() {
 
@@ -131,7 +132,7 @@ const deleteUser = async(id)=>{
       <th scope="col">name</th>
       <th scope="col">email</th>
       <th scope="col">password</th>
-      <th scope="col">Delete</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
@@ -145,7 +146,8 @@ const deleteUser = async(id)=>{
                 <td>{user.email}</td>
                 <td>{user.password}</td>
                 <td onClick={()=>deleteUser(user._id)}>delete</td>
-                <td><Link to={`/user/$user._id}`}>details</Link></td>
+                    <td><Link to={`/user/$user._id}`}>details</Link></td>
+                    
             </tr>
             </React.Fragment>
             )}
