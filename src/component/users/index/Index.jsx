@@ -25,8 +25,7 @@ const getUsers = async ()=>{
      
 }
 const deleteUser = async(id)=>{
-    setLoader(true);
-    const {data} = await axios.delete(`https://crud-users-gold.vercel.app/users/${id}`)
+     const {data} = await axios.delete(`https://crud-users-gold.vercel.app/users/${id}`)
   if(data.message=='success'){
     toast.success("User delete successfully");
     //setUsers(data.users);

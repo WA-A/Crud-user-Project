@@ -29,18 +29,27 @@ let [errors, setErrors] = useState({
        // console.log (user);     
     }
 
+    let [errorBack,setErrorBake]=useState('');  // Return Error Backend
+    
+
     const sendData = async (e)=> {
         e.preventDefault();
         if(Object.keys(validationuserData(user)).length>0){
             setErrors(validationuserData(user))
         }
         else{
-      const {data} = await axios.post("https://crud-users-gold.vercel.app/users/",user);  // any reguset is const / {} means is variable / post get 2 parameters
+     try{ const {data} = await axios.post("https://crud-users-gold.vercel.app/users/",user);  // any reguset is const / {} means is variable / post get 2 parameters
       console.log(data);
       if(data.message== 'success'){
         toast.success("user added successfly");
         navigate('/users/index') // Send the user to the creae page / put end point (path) for page
       }
+    }
+      catch{    // Another way is to write to the user in data .catch 
+        setErrorBake(error.respones.data.massege);
+        setErrors([]);
+        setLoader(false);
+      } 
     }
     }
   return (
@@ -128,6 +137,7 @@ let [errors, setErrors] = useState({
         </div>
         
         <div className="col py-3">     {/*store data from form to api not localstorge */}
+         {errorBack && <p className='text text-danger'>{errorBack}</p>}
        <form onSubmit={sendData}>       {/* when click sumbit call function sendData */}
        <input errors={errors} id={'username'}  title={'user name'} type={'text'} name={'name'} handelData={handelData} /> 
        <input errors={errors} id={'email'}   title={'email'} type={'email'}  name={'email'} handelData={handelData}/>
