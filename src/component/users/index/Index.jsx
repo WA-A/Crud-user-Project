@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import Loder from '../Loader';
 
 export default function Index() {
+    let [loader,setLoader]= useState(false); // inital value false
 
     //useState accepts an initial state and returns two values:
     //The current state.
@@ -22,23 +24,34 @@ const getUsers = async ()=>{
     // in consle show array content massege and users so need print users in page not console
     //console.log(data.users); // but use {data} no response
     setUsers(response.data.users);
-     
+    setLoader(false); // after finish show data is false
 }
 const deleteUser = async(id)=>{
+    setLoader(true); // first click 
      const {data} = await axios.delete(`https://crud-users-gold.vercel.app/users/${id}`)
   if(data.message=='success'){
     toast.success("User delete successfully");
     //setUsers(data.users);
-  }
-} 
+    setLoader(false); // after finish delete is false
+    getUsers(); 
+     }
+    } 
    useEffect ( ()=>{  // call the first time I refresh a page
      getUsers();
-   },[])
+     setLoader(true); // When you first open the page show data is true
+    },[])
 
 
-   useEffect ( ()=>{  // all the first as there is a change in users  refresh it
+   /*useEffect ( ()=>{  // all the first as there is a change in users  refresh it
     getUsers();
-  },[users])   
+  },[users])  */ 
+
+  if(loader){
+    return(
+      <Loder/>
+    )
+}
+
 
   return (
     <div className="container-fluid">

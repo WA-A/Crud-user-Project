@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom'; // Navigate from it
 import { toast } from 'react-toastify';
 import Input from '../../../shared/input';
 import { validationuserData } from './../../../validation/ValidationuserData';
+import Loder from '../Loader';
 
 
 export default function Create() {
 const navigate = useNavigate();
+let [loader,setLoader]= useState(false); // inital value false
 let [errors, setErrors] = useState({
     name: '',
     email: '',
@@ -33,6 +35,7 @@ let [errors, setErrors] = useState({
     
 
     const sendData = async (e)=> {
+        setLoader(true);  // when click at form before return data make ture  // He continues to turn around until the backhand responds
         e.preventDefault();
         if(Object.keys(validationuserData(user)).length>0){
             setErrors(validationuserData(user))
@@ -48,9 +51,16 @@ let [errors, setErrors] = useState({
       catch{    // Another way is to write to the user in data .catch 
         setErrorBake(error.respones.data.massege);
         setErrors([]);
-        setLoader(false);
+        setLoader(false); // if error no loading
       } 
     }
+
+    if(loader){  // if true
+        return(
+          <Loder/>
+        )
+    }
+
     }
   return (
     <div className="container-fluid">
@@ -137,7 +147,7 @@ let [errors, setErrors] = useState({
         </div>
         
         <div className="col py-3">     {/*store data from form to api not localstorge */}
-         {errorBack && <p className='text text-danger'>{errorBack}</p>}
+         {errorBack && <p className='text text-danger'>{errorBack}</p>}    {/* When it is in the Error, it returns its value to the variable and prints it */}
        <form onSubmit={sendData}>       {/* when click sumbit call function sendData */}
        <input errors={errors} id={'username'}  title={'user name'} type={'text'} name={'name'} handelData={handelData} /> 
        <input errors={errors} id={'email'}   title={'email'} type={'email'}  name={'email'} handelData={handelData}/>
