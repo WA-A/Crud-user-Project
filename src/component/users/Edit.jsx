@@ -1,60 +1,71 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import Loder from '../Loader';
+import React, { useState } from 'react';
+import axios from 'axios' ;
+import {toast} from 'react-toastify'
+import {useNavigate} from 'react-router-dom'
+import Input from '../../shared/input';
+import { validationuserData } from '../../validation/ValidationuserData';
+import Loder from './Loader';
 
-export default function Index() {
-    let [loader,setLoader]= useState(false); // inital value false
+export default function Edit() {
+ const navigate=useNavigate();
+ let [loader,setLoader]= useState(false);
+ let [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    password: ''
 
-    //useState accepts an initial state and returns two values:
-    //The current state.
-    //A function that updates the state.
+})
+let [users,setUsers]= useState({});
+ let [user, setUsre] = useState({
+        name: '',
+        email: '',
+        password: ''
     
-   const [users,setUsers]=useState([]);  // var to store data of user (inital value is empty array)
-   
-   /*const getUsers1 = async ()=>{ // not used
-    let response = await fetch  ("https://crud-users-gold.vercel.app/users/");
-    // in consle show array content massege and users so need print users in page not console
-     const data = await response.json();
-    // console.log(data.users);
-     setUsers(data.users);
-}*/
-const getUsers = async ()=>{
-    const response = await axios  ("https://crud-users-gold.vercel.app/users/");
-    // in consle show array content massege and users so need print users in page not console
-    //console.log(data.users); // but use {data} no response
-    setUsers(response.data.users);
-    setLoader(false); // after finish show data is false
-}
-const deleteUser = async(id)=>{
-    setLoader(true); // first click 
-     const {data} = await axios.delete(`https://crud-users-gold.vercel.app/users/${id}`)
-  if(data.message=='success'){
-    toast.success("User delete successfully");
-    //setUsers(data.users);
-    setLoader(false); // after finish delete is false
-    getUsers(); 
-     }
-    } 
-   useEffect ( ()=>{  // call the first time I refresh a page
-     getUsers();
-     setLoader(true); // When you first open the page show data is true
-    },[])
+    });
+    
+    const {id}=useParams('id')
 
+    const getUsers = async()=>{
+        const {data} = await axios.get(`https://crud-users-gold.vercel.app/users/${id}`)
+       setUsers(data.users);
+    }
 
-   /*useEffect ( ()=>{  // all the first as there is a change in users  refresh it
-    getUsers();
-  },[users])  */ 
-
-  if(loader){
-    return(
-      <Loder/>
-    )
-}
-
-
-  return (
-    <div className="container-fluid">
+    let [errorBack,setErrorBake]=useState('');
+    const handelData = (e) =>{
+        const {name,value}= e.target;
+        setUsre({ ...user,[name]:value});
+        
+       // console.log(user);
+    }
+    const sendData = async (e) =>{
+        e.preventDefault();
+        setLoader(true);
+        if(Object.keys(validationuserData(user)).length>0){
+            setErrors(validationuserData(user))
+        }
+        else{
+            try{const {data} = await axios.post('https://crud-users-gold.vercel.app/users/${id}',user);
+            console.log(data);
+            if(data.message=='success'){
+                toast.success("User successfully")
+                navigate('/users/index')
+                setLoader(false);
+        }
+    }
+      catch{
+        setErrorBake(error.respones.data.massege);
+        setErrors([]);
+        setLoader(false);
+      }      
+        }
+        }
+        if(loader){
+            return(
+               <Loder/>
+            )
+        }
+    return (
+        <div className="container-fluid">
             <div className="row flex-nowrap">
                 <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
@@ -137,43 +148,19 @@ const deleteUser = async(id)=>{
                     </div>
                 </div>
                 <div className="col py-3">
-                <table className="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">name</th>
-      <th scope="col">email</th>
-      <th scope="col">password</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-       {users.length>0? users.map ( (user,index)=>{  // user is obj and in td put same from api name email ..etc
-        return( 
-            // key must in first parent so use React.Fragment 
-            <React.Fragment key={user._id}> 
-            <tr>    
-                <td>{index}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.password}</td>
-                <td onClick={()=>deleteUser(user._id)}>delete</td>
-                    <td><Link to={`/user/$user._id}`}>details</Link></td>
-                    <td onClick={()=>deleteUser(user._id)}>
-                      <Link to={`/user/edit/${user._id}`}>edit</Link>
-                      </td> 
-            </tr>
-            </React.Fragment>
-            )}
-        ):<h2>no user data</h2>}
-      
-  </tbody>
-  
-</table>
-
+                    <form onSubmit={sendData}>
+                        
+                <input  errors={errors} id={'username'} title={'user name'} value={user.name} type= {'text'} name={'name'}  handelData={handelData}/>
+                <input  errors={errors} id={'email'} title={'user email'}  value={user.email} type={'email'} name={'email'} handelData={handelData}/>
+                <input errors={errors} id={'password'} title={'user password'} value={user.password} type={'password'} name={'passsword'}  handelData={handelData}/> 
+                <div className="mp-3">
+                <input type='submit'   className='form-control' value={'Add user'}/>
+                  </div>  
+                
+                    </form>
                 </div>
     
             </div>
         </div>
-  )
+    )
 }
