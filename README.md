@@ -9,4 +9,5 @@ Currently, two official plugins are available:
 
 - ## curd_user
 - It is the first project in React to create ideas such as displaying data from the game, creating new data with the user and displaying it on a second page. The user can also delete specific data or display the details of this data, edit, and control through id.
-Postman was handled for api
+- 
+The postman API was dealt with where each process has its own url
